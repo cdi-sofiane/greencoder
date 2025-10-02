@@ -1,0 +1,115 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: ${APP_NAME}-db-${APP_ENV}
+    restart: always
+    volumes:
+      - ${ROOT_DIR}/${DB_PATH}/${APP_NAME}-${APP_ENV}/mariadb:/var/lib/mysql:rw
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "${EXT_DB_PORT}:${MYSQL_PORT}"
+    networks:
+      - proxy-tier
+
+  phpmyadmin_api:
+    container_name: ${APP_NAME}-phpmyadmin-${APP_ENV}
+    image: phpmyadmin
+    depends_on:
+      - db
+    ports:
+      - "${MYADMIN_PORT}:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: test
+      UPLOAD_LIMIT: 4G
+    networks:
+      - proxy-tier
+
+  php:
+    container_name: ${APP_NAME}-app-php-${APP_ENV}
+    restart: always
+    hostname: greencoder
+    build:
+      context: services/php-fpm
+      args:
+        TIMEZONE: ${TIMEZONE}
+        AWS_ID: ${aws_access_key_id}
+        AWS_KEY: ${aws_secret_access_key}
+    volumes:
+      - ./src:/var/www/html:rw
+      - ./src/var:/var/www/html/var:rw
+      - ./src:/vendor/www/html/vandor:rw
+      - ${ROOT_DIR}/backups/databases/${APP_NAME}-${APP_ENV}:/backup/database:rw
+    expose:
+      - ${PHP_PORT}
+    environment:
+      - APP_ENV
+      - APP_NAME
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_PASSWORD
+      - MYSQL_HOST
+      - MYSQL_PORT
+      - SECRET
+    networks:
+      - proxy-tier
+  web:
+    stdin_open: true
+    container_name: greencoder-react-dev
+    image: docker-react
+    build:
+      context: front
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front/src:/var/www/html/src
+      - ./front/package.json:/var/www/html/package.json
+      - ./front/vite.config.ts:/var/www/html/vite.config.ts
+      - ./front/tsconfig.json:/var/www/html/tsconfig.json
+      - ./front/tsconfig.node.json:/var/www/html/tsconfig.node.json
+      - ./front/postcss.config.js:/var/www/html/postcss.config.js
+      - ./front/tailwind.config.js:/var/www/html/tailwind.config.js
+      - ./front/.env:/var/www/html/.env
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    networks:
+      - proxy-tier
+
+  nginx:
+    container_name: ${APP_NAME}-nginx-${APP_ENV}
+    restart: always
+    build:
+      context: services/nginx
+      args:
+        - APP_CONF=${APP_CONF}
+        - APP_DOMAIN=${APP_DOMAIN}
+    ports:
+      - "${HOST_IP}:${SERVER_PORT}:80"
+    volumes:
+      - ./src/public:/var/www/html
+      - ${ROOT_DIR}/${LOGS_PATH}/${APP_NAME}-${APP_ENV}/nginx:/var/log/nginx:rw
+    depends_on:
+      - php
+    environment:
+      - VIRTUAL_HOST=${APP_DOMAIN}
+      - VIRTUAL_NETWORK=nginx-proxy
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=${APP_DOMAIN}
+      - LETSENCRYPT_EMAIL=${APP_EMAIL}
+    networks:
+      - proxy-tier
+
+volumes:
+  var:
+  vendor:
+
+networks:
+  proxy-tier:
+    external: false
+    name: nginx-proxy

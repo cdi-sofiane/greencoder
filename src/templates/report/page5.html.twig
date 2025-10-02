@@ -1,0 +1,76 @@
+{% block body %}
+	{% block page5 %}
+
+		<style>
+			#outro {
+				position: relative;
+				isolation: isolate;
+			}
+			#outro::before {
+				content: '';
+				position: absolute;
+				width: 2148px;
+				top: 50%;
+				left: 100%;
+				height: 2048px;
+				transform: translate(-50%, -50%) rotate(45deg);
+				border-radius: 25%;
+				background: radial-gradient(rgb(9, 87, 230), rgb(9, 84, 222));
+				z-index: -1;
+			}
+
+			#outro #outro-title {
+				height: 100%;
+				align-self: stretch;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				margin-left: 50px;
+				max-width: 900px;
+				position: relative;
+			}
+
+			#outro #outro-title::before {
+				content: "2023";
+				position: absolute;
+				left: 0;
+				top: 50%;
+				transform: translate(-50%, -50%) rotate(-90deg);
+				color: #DDD;
+				font-weight: bold;
+				font-size: 60px;
+				letter-spacing: 6px;
+			}
+
+			#outro #outro-title img {
+				margin-top: 50px;
+				width: 500px;
+			}
+
+			#outro #outro-title h2 {
+				font-size: 84px;
+				margin-bottom: 0.25em;
+				margin-top: 0.25em;
+			}
+
+			#outro #outro-title a {
+				font-size: 48px;
+			}
+		</style>
+
+		<section id="outro" class="slide row align-center space-between spaced-xxl">
+			<section id="outro-title">
+				<img src="{{report_storage}}assets/logo_vidmizer_encadre.png" alt="Vidmizer-logo"/>
+				<div style="margin-top: 200px; margin-left: 100px">
+					<h2 class="is-bold">Nous contacter</h2>
+					<h2 class="is-primary">{{(data['pilote']['firstName'] ~ ' ' ~ data['pilote']['lastName'])}}</h2>
+					<ul>
+						<li><a class="is-primary" href="mailto:{{data['pilote']['email']}}">{{data['pilote']['email']}}</a></li>
+						<li><a class="is-primary" href="tel:{{data['pilote']['phone']}}">{{data['pilote']['phone']}}</a></li>
+					</ul>
+				</div>
+			</section>
+			<img src="{{report_storage}}assets/badge_greenencoder_blanc.png" alt="GreenEncoder-logo"/>
+		</section>
+	{% endblock page5 %}
+{% endblock %}

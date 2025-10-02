@@ -1,0 +1,78 @@
+{% block body %}
+{% block page2 %}
+
+<style>
+	#environment {
+		background: limegreen;
+		color: white;
+	}
+	#environment h3 {
+		font-size: 58px;
+		font-weight: normal;
+		color: white;
+	}
+	#environment p {
+		font-size: 28px;
+	}
+	#environment img {
+		width: 84px;
+	}
+</style>
+
+<section class="slide">
+	<header class="slide-title">
+		<h2>Pourquoi choisir le GreenEncoder ?</h2>
+		<img src="{{report_storage}}assets/logo_vidmizer_encadre.png" alt="Vidmizer-logo"/>
+	</header>
+	<div id="features" class="slide-content space-between">
+		<div style="width: 80%" class="row space-between wrap">
+			<article class="card">
+				<img src="{{report_storage}}assets/icone_new_gen.png" alt="icone_new_gen">
+				<h3>Un encodeur nouvelle génération</h3>
+				<p>Pour réduire le poids des vidéos de 15 à 95%, les coûts et l’énergie d’autant ainsi que l’empreinte carbone</p>
+			</article>
+			<article class="card">
+				<img src="{{report_storage}}assets/icone_techno_scalable.png" alt="icone_techno_scalable">
+				<h3>Une technologie scalable, puissante et rapide</h3>
+				<p>Utilisable en toute autonomie de manière agile sans intervention technique</p>
+				<p>Permettant l’encodage en volume de vos vidéos et de manière parallélisée</p>
+			</article>
+			<article class="card">
+				<img src="{{report_storage}}assets/icone_bande_passante.png" alt="icone_bande_passante">
+				<h3>Bande passante</h3>
+				<p>Optimisée grâce à l’encodage multi-format pour une diffusion adaptative</p>
+				<p>S’adapte à la complexité du contenu de la vidéo et à sa vraie définition</p>
+			</article>
+			<article class="card small-height self-end">
+				<img src="{{report_storage}}assets/icone_innovation.png" alt="icone_innovation">
+				<h3>Innovant</h3>
+				<p>Intégrant les dernières normes d’encodage <br /> (H264 & 265)</p>
+			</article>
+			<article class="card small-height self-end">
+				<img src="{{report_storage}}assets/icone_optimisation.png" alt="icone_optimisation">
+				<h3>Optimisation</h3>
+				<p>Des coûts d’encodage, de stockage et de diffusion optimisés</p>
+			</article>
+			<article class="card small-height self-end">
+				<img src="{{report_storage}}assets/icone_tarifs.png" alt="icone_tarifs">
+				<h3>Tarif</h3>
+				<p>Tarifs attractifs, formules packages ou abonnement. Forte dégressivité en fonction du volume</p>
+			</article>
+		</div>
+		
+		<aside style="width: 40%" class="col align-center space-between">
+			<div id="environment" class="card big">
+				<img src="{{report_storage}}assets/icone_plante.png" alt="icone_plante">
+				<h3>Environnement</h3>
+				<p>Permet de ne plus gaspiller inutilement des ressources carbone</p>
+			</div>
+			<div  class="card big small-height">
+				<p class="legend">*Le GreenEncoder est le résultat de plusieurs années de recherche & développement</p>
+				<img style="width: 100%" src="{{report_storage}}assets/logo_groupe_tech.png" alt="partners-logos"/>
+			</div>
+		</aside>
+	</div>
+
+</section>
+{% endblock page2 %}
+{% endblock %}

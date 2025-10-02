@@ -1,0 +1,13 @@
+{% block body %}
+
+{% block page4 %}
+{% for page in data['template_4'] %}
+<div class="slide">
+	{% block page4_table %}
+	{% include "@report/page4-table.html.twig" with page %}
+	{% endblock page4_table %}
+</div>
+{% endfor %}
+{% endblock page4 %}
+
+{% endblock %}

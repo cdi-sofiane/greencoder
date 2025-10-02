@@ -1,0 +1,185 @@
+{% block body %}
+
+	{% block page3 %}
+
+		<style>
+			div#big-numbers-section article.card {
+				width: 525px;
+				height: 500px;
+				padding: 50px 25px;
+			}
+
+			div#big-numbers-section article.card.large {
+				width: 850px;
+			}
+
+			div#big-numbers-section article.card strong {
+				font-size: 68px;
+				color: #0c60ff;
+			}
+
+			div#big-numbers-section article.card img {
+				width: 84px;
+			}
+
+			div#big-numbers-section article.card strong.big-number {
+				font-size: 154px;
+				font-weight: bold;
+			}
+
+			.chart-container {
+				position: relative;
+				width: 400px;
+				height: 400px;
+			}
+
+			div#big-numbers-section #reduction-size {
+				width: 100%;
+				margin-top: 50px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			div#big-numbers-section #reduction-size #transform-icon {
+				margin-left: 25px;
+				margin-right: 25px;
+			}
+
+			div#big-numbers-section #carbon-eco,
+			div#big-numbers-section #kwh-eco {
+				height: auto !important;
+				width: 550px;
+				padding: 35px 25px;
+			}
+			div#big-numbers-section #carbon-eco strong#carbon-saved {
+				font-size: 48px;
+			}
+
+			div#big-numbers-section #carbon-eco .equivalence {
+				margin-top: 15px;
+			}
+
+			div#big-numbers-section #carbon-eco .equivalence img {
+				width: 48px;
+			}
+
+			div#big-numbers-section #carbon-eco .equivalence span {
+				width: 400px;
+				font-size: 22px;
+				text-align: left;
+				margin-left: 15px;
+				color: #0c60ff;
+				font-weight: 500;
+			}
+			div#big-numbers-section #kwh-eco .chauffage span {
+				width: 400px;
+				font-size: 18px;
+				margin-left: 15px;
+				color: #0c60ff;
+				font-weight: 500;
+			}
+			div#big-numbers-section article.card#kwh-eco strong {
+				font-size: 32px;
+			}
+		</style>
+
+		<section class="slide">
+			<header class="slide-title">
+				<h2>Votre rapport en chiffres</h2>
+				<img src="{{report_storage}}assets/logo_vidmizer_encadre.png" alt="Vidmizer-logo"/>
+			</header>
+			<div id="big-numbers-section" class="slide-content space-between">
+				<div style="width: 65%" class="row space-between wrap">
+					<article class="card">
+						<img src="{{report_storage}}assets/icone_video.png" alt="icon_total_videos">
+						<h3>Nombre de
+							<br/>vidéos encodées</h3>
+						<strong class="big-number">{{data['template_3']['totalVideos']}}</strong>
+					</article>
+					<article class="card large">
+						<img src="{{report_storage}}assets/icone_poids.png" alt="icon_weight_reduction">
+						<h3>Réduction du poids grâce
+							<br/>
+							au GreenEncoder</h3>
+						<div id="reduction-size">
+							<strong class="is-primary">{{data['template_3']['totalOriginalSize'] }}
+							</strong>
+							<img id="transform-icon" src="{{report_storage}}play.png" alt="">
+							<strong class="is-green">{{data['template_3']['totalEncodedSize']}}
+							</strong>
+						</div>
+					</article>
+					<article id="graph-card" class="card large row space-between" data-repartitionlabel="{{data['template_3']['repartition']['label']|json_encode()}}" data-repartitionvalue="{{data['template_3']['repartition']['value']|json_encode()}}">
+						<div id="graph-legend">
+							<img src="{{report_storage}}assets/icone_repartition_resultat.png" alt="icon_encoding_repartition">
+							<h3>Répartition de vos
+								<br/>résultats d’encodage</h3>
+						</div>
+						<div class="chart-container">
+							<canvas id="repartitionChart"></canvas>
+						</div>
+					</article>
+
+					<article class="card">
+						<img src="{{report_storage}}assets/icone_moyenne_optimisation.png" alt="icon_optimisation_avg">
+						<h3>Moyenne d'optimisation</h3>
+						<strong class="big-number">{{data['template_3']['moyOptimisation']|round }}
+							%
+						</strong>
+					</article>
+				</div>
+				<aside style="width: 35%" class="col align-center justify-center">
+					<article id="carbon-eco" class="card">
+						<img src="{{report_storage}}assets/icone_carbone.png" alt="icon_carbon_saved">
+						<h3>Empreinte carbonne
+							<br/>
+							économisée</h3>
+						<strong id="carbon-saved" class="is-green">{{data['template_3']['carbonEqSaved']}}
+							. eq. CO<sub>2</sub>
+						</strong>
+						<p class="is-primary">C'est l'équivalent de l'impact CO<sub>2</sub>
+							:</p>
+						<ul>
+							{% for key,item in data['template_3']['absorbtionCo2'] %}
+								<li class="equivalence row align-center space-evenly">
+									{% if key =='arbre' %}
+										<img src="{{report_storage}}assets/icone_arbre_vert.png" alt="icon_tree">
+										<span>{{item}}</span>
+									{% elseif key =='voiture' %}
+										<img src="{{report_storage}}assets/icone_camion_vert.png" alt="icon_car">
+										<span>{{item}}</span>
+									{% elseif key =='avion' %}
+										<img src="{{report_storage}}assets/icone_avion_vert.png" alt="icon_plane">
+										<span>{{item}}</span>
+									{% endif %}
+								</li>
+							{% endfor %}
+						</ul>
+					</article>
+					<article id="kwh-eco" class="card small-height">
+						<img src="{{report_storage}}assets/icone_eclair.png" style="width: 50px;" alt="icon_energy">
+						<h3>Gain d'énergie</h3>
+						<div class="row align-center">
+							{% for key,value in data['template_3']['energy'] %}
+								<span class="row">
+									{% if key == 'totalEncodeEnergyKwh' %}
+										<strong class="is-green" style="font-size: 48px;">{{value }}&nbsp;</strong>
+									{% endif %}
+									{% if key == 'totalEncodeKwhCost' %}
+										<strong>&nbsp;(eq.&nbsp;{{value|round }}&nbsp;€)</strong>
+									{% endif %}
+								</span>
+							{% endfor %}
+						</div>
+						<ul>
+							<li class="chauffage row align-center space-evenly">
+								<span>{{data['template_3']['chauffage']}}</span>
+							</li>
+						</ul>
+					</article>
+				</aside>
+			</div>
+		</section>
+	{% endblock page3 %}
+
+{% endblock body %}

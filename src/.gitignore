@@ -1,0 +1,39 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+# ignore files in folder
+/public/uploads/*
+# but please keep the folder
+!/public/uploads/.gitkeep
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+###> docker volume cache and log ###
+../volume/var/cache/*
+../volume/nginx/*.log
+###> docker volume cache and log ###
+
+###> ide phpstorme files ###
+../.idea/*
+###> ide phpstorme files ###
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

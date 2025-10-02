@@ -1,0 +1,87 @@
+security:
+  encoders:
+    App\Entity\User:
+      algorithm: auto
+
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+    app_apiKey_provider:
+      entity:
+        class: App\Entity\User
+        property: apiKey
+  firewalls:
+    login:
+      pattern: ^/api/login
+      stateless: true
+      anonymous: true
+      provider: app_user_provider
+      json_login:
+        check_path: security_login
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+    apkiKey:
+      pattern: ^/api/authenticate
+      stateless: true
+      anonymous: true
+      provider: app_apiKey_provider
+      guard:
+        authenticators:
+          - App\Security\ApiKeyAuthenticator
+    api:
+      pattern: ^/api
+      stateless: true
+      provider: app_user_provider
+      anonymous: ~
+      guard:
+        authenticators:
+          - lexik_jwt_authentication.jwt_token_authenticator
+    doc:
+      pattern: ^/api/doc$/
+      security: false
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      pattern: ^/
+      stateless: true
+      provider: app_user_provider
+      anonymous: ~
+      guard:
+        authenticators:
+          - lexik_jwt_authentication.jwt_token_authenticator
+
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
+
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    - { path: ^/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/activate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/users/forgotten-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/infos, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/authenticate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/doc, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/bundles/nelmioapidoc/swagger-ui/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/videos/estimate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/packages, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/videos/(.+)/download, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/videos/(.+)/stream, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/videos/(.+)/thumbnail, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/payments/validate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api, roles: ROLE_USER }
+  role_hierarchy:
+    ROLE_DEV: [ROLE_VIDMIZER]
+    ROLE_VIDMIZER: [ROLE_PILOTE]
+    ROLE_PILOTE: [ROLE_USER]
+    ROLE_USER: IS_AUTHENTICATED_FULLY

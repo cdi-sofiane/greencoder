@@ -1,0 +1,82 @@
+{% apply inline_css(source("@style/report.css")) %}
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Automatic report</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"
+			integrity="sha512-SUJFImtiT87gVCOXl3aGC00zfDl6ggYAw5+oheJvRJ8KBXZrr/TMISSdVJ5bBarbQDRC2pR5Kto3xTR0kpZInA=="
+			crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		{% block body %}
+		{% include "@report/report.html.twig" %}
+		{% endblock %}
+	</body>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+		integrity="sha512-mf78KukU/a8rjr7aBRvCa2Vwg/q0tUjJhLtcK53PHEbFwCEqQ5durlzvVTgQgKpv+fyNMT6ZQT1Aq6tpNqf1mg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<script type="text/javascript">
+		function drawGraphs() {
+			const ctx = document.getElementById('repartitionChart').getContext('2d');
+
+			ctx.canvas.width = "300px";
+			ctx.canvas.height = "300px";
+
+			const userRating = document.querySelector('#graph-card');
+			let label = JSON.parse(userRating.dataset.repartitionlabel);
+			let value = JSON.parse(userRating.dataset.repartitionvalue);
+
+			new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels: label,
+					datasets: [{
+						label: '# of Votes',
+						data: value,
+						backgroundColor: [
+							'rgba(11, 43, 101, .8)',
+							'rgba(31, 68, 138, .8)',
+							'rgba(77, 112, 176, .8)',
+							'rgba(136, 165, 220, .8)',
+							'rgba(211, 224, 249, .8)',
+							'rgba(0, 24, 68, .8)'
+						],
+						borderColor: [
+							'rgba(11, 43, 101, 1)',
+							'rgba(31, 68, 138, 1)',
+							'rgba(77, 112, 176, 1)',
+							'rgba(136, 165, 220, 1)',
+							'rgba(211, 224, 249, 1)',
+							'rgba(0, 24, 68, 1)'
+						],
+						borderWidth: 1
+					}]
+				},
+				options: {
+					legend: {
+						position: 'bottom'
+					},
+					scales: {
+						y: {
+							beginAtZero: true
+						}
+					}
+				}
+			});
+		}
+		window.onload = function () {
+			drawGraphs();
+		};
+	</script>
+</html>
+{% endapply %}

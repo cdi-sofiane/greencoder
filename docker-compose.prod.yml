@@ -1,0 +1,62 @@
+version: "3.3"
+
+services:
+  php:
+    container_name: ${APP_NAME}-app-php-${APP_ENV}
+    restart: always
+    build:
+      context: services/php-fpm
+      args:
+        TIMEZONE: ${TIMEZONE}
+        AWS_ID: ${aws_access_key_id}
+        AWS_KEY: ${aws_secret_access_key}
+    volumes:
+      - ./src:/var/www/html:cached
+      - ${ROOT_DIR}/${LOGS_PATH}/${APP_NAME}-${APP_ENV}/var/logs:/var/www/html/var/logs:rw
+      - ${ROOT_DIR}/${LOGS_PATH}/${APP_NAME}-${APP_ENV}/var/cache:/var/www/html/var/cache:rw
+      - ${ROOT_DIR}/${LOGS_PATH}/${APP_NAME}-${APP_ENV}/var/sessions:/var/www/html/var/sessions:rw
+      - ${ROOT_DIR}/${LOGS_PATH}/${APP_NAME}-${APP_ENV}/vendor:/var/www/html/vendor:rw
+      - ${ROOT_DIR}/backups/databases/${APP_NAME}-${APP_ENV}:/backup/database:rw
+    expose:
+      - ${PHP_PORT}
+    environment:
+      - APP_ENV
+      - APP_NAME
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_PASSWORD
+      - MYSQL_HOST
+      - MYSQL_PORT
+      - SECRET
+    networks:
+      - proxy-tier
+
+  nginx:
+    container_name: ${APP_NAME}-server-nginx-${APP_ENV}
+    restart: always
+    build:
+      context: services/nginx
+      args:
+        - APP_CONF=${APP_CONF}
+        - APP_DOMAIN=${APP_DOMAIN}
+    ports:
+      - "${HOST_IP}:${SERVER_PORT}:80"
+    volumes:
+      - ./src:/var/www/html:rw
+      - ${ROOT_DIR}/${LOGS_PATH}/${APP_NAME}-${APP_ENV}/nginx:/var/log/nginx:rw
+    depends_on:
+      - php
+    environment:
+      - VIRTUAL_HOST=${APP_DOMAIN}
+      - VIRTUAL_NETWORK=nginx-proxy
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=${APP_DOMAIN}
+      - LETSENCRYPT_EMAIL=${APP_EMAIL}
+    networks:
+      - proxy-tier
+
+networks:
+  proxy-tier:
+    external:
+      name: nginx-proxy

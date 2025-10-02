@@ -1,0 +1,197 @@
+{% block body %}
+	{% block page4_table %}
+
+		<style>
+			th,
+			td {
+				height: 64px;
+				padding: 0.25em;
+				text-align: center;
+				border: 1px solid white;
+			}
+
+			.cell-meta {
+				outline: 3px solid #0c60ff;
+			}
+
+			.cell-meta-name {
+				text-align: left;
+			}
+
+			.cell-source {
+				background-color: #CCC;
+			}
+
+			.cell-reduction {
+				background-color: #29c00a;
+				border-left: 3px solid #29c00a;
+				border-right: 3px solid #29c00a;
+				color: white;
+			}
+
+			.cell-encoded {
+				background-color: #0c60ff;
+				color: white;
+			}
+
+			table {
+				width: 100%;
+				border: 0;
+			}
+
+			p#table-legend {
+				width: 100%;
+				display: flex;
+				margin-top: 50px;
+			}
+
+			p#table-legend span {
+				margin: 0 50px;
+			}
+		</style>
+		<header class="slide-title">
+			<h2>Détails des encodages</h2>
+			<img src="{{report_storage}}assets/logo_vidmizer_encadre.png" alt="Vidmizer-logo"/>
+		</header>
+
+		<table aria-describedby="encoding report details">
+			<thead>
+				<tr>
+					<th colspan="3" style="border:0;"></th>
+					<th colspan="3" style="border: 3px solid currentColor; color: #CCC">Vidéos Sources</th>
+					<th rowspan="1" style="border: 3px solid currentColor; color: #29c00a">Réductions</th>
+					<th colspan="3" style="border: 3px solid currentColor; color: #0c60ff">Vidéos Encodées</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for key,reports in page %}
+					<tr>
+						{% for indice,reportValue in reports %}
+
+							{% if indice == 'name' %}
+								{% if key == 0 %}
+									<td class="cell-meta cell-meta-name">Nom de la vidéo</td>
+								{% endif %}
+							{% endif %}
+
+							{% if indice == 'totalViews' %}
+								{% if key == 0 %}
+									<td class="cell-meta">Nombre d'impressions</td>
+								{% endif %}
+							{% endif %}
+
+							{% if indice == 'originalSize' %}
+								{% if key == 0 %}
+									<td class="cell-meta">Cumul<sup>1</sup>(Go)</td>
+								{% endif %}
+							{% endif %}
+
+							{% if indice == 'originalEmissionCo2' %}
+								{% if key == 0 %}
+									<td class="cell-source">Émission CO<sub>2</sub>
+										<sup>2</sup>
+										(kg)</td>
+								{% endif %}
+							{% endif %}
+
+							{% if indice == 'originalEnergyKwh' %}
+								{% if key == 0 %}
+									<td class="cell-source">Énergie élec.<sup>3</sup>(kWh)</td>
+								{% endif %}
+							{% endif %}
+
+							{% if indice == 'originalKwhCost' %}
+								{% if key == 0 %}
+									<td class="cell-source">Coût<sup>4</sup>(euro)</td>
+								{% endif %}
+							{% endif %}
+
+							{% if indice == 'realGain' %}
+								{% if key == 0 %}
+									<td class="cell-reduction">Poids(%)</td>
+								{% endif %}
+							{% endif %}
+
+							{% if indice == 'encodeEmissionCo2' %}
+								{% if key == 0 %}
+									<td class="cell-encoded">Émission CO<sub>2</sub>
+										<sup>2</sup>
+										(kg)</td>
+								{% endif %}
+							{% endif %}
+
+							{% if indice == 'encodeEnergyKwh' %}
+								{% if key == 0 %}
+									<td class="cell-encoded">Énergie élec.<sup>3</sup>(kWh)</td>
+								{% endif %}
+							{% endif %}
+
+
+							{% if indice == 'encodeKwhCost' %}
+								{% if key == 0 %}
+									<td class="cell-encoded">Coût<sup>4</sup>(euro)</td>
+								{% endif %}
+							{% endif %}
+
+						{% endfor %}
+					</tr>
+
+					<tr>
+						{% for indice,reportValue in reports %}
+
+							{% if indice == 'name' %}
+								<td class="cell-meta cell-meta-name">{{reports[indice]}}</td>
+							{% endif %}
+
+							{% if indice == 'totalViews' %}
+								<td class="cell-meta">{{reports[indice]|round}}</td>
+							{% endif %}
+
+							{% if indice == 'originalSize' %}
+								<td class="cell-meta">{{reports[indice]|round}}</td>
+							{% endif %}
+
+							{% if indice == 'originalEmissionCo2' %}
+								<td class="cell-source">{{reports[indice]|round}}</td>
+							{% endif %}
+
+							{% if indice == 'originalEnergyKwh' %}
+								<td class="cell-source">{{reports[indice]|round}}</td>
+							{% endif %}
+
+							{% if indice == 'originalKwhCost' %}
+								<td class="cell-source">{{reports[indice]|round}}</td>
+							{% endif %}
+
+							{% if indice == 'realGain' %}
+								<td class="cell-reduction">{{reports[indice]|round}}</td>
+							{% endif %}
+
+							{% if indice == 'encodeEmissionCo2' %}
+								<td class="cell-encoded">{{reports[indice]|round}}</td>
+							{% endif %}
+
+							{% if indice == 'encodeEnergyKwh' %}
+								<td class="cell-encoded">{{reports[indice]|round}}</td>
+							{% endif %}
+
+							{% if indice == 'encodeKwhCost' %}
+								<td class="cell-encoded">{{reports[indice]|round}}</td>
+							{% endif %}
+
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<p id="table-legend">
+			<span>1: Poids des vidéos visionnées</span>
+			<span>2: Mobile 50gr CO<sub>2</sub>
+				e/Go - Ecran fixe 18gr CO<sub>2</sub>
+				e/Go</span>
+			<span>3: 50 kWh/Go</span>
+			<span>4: 0,17€/kWh</span>
+		</p>
+	{% endblock page4_table %}
+{% endblock body %}

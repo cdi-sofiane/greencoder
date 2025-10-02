@@ -1,0 +1,3 @@
+external_id,quality,size,stream_link,slug_name
+3dafb8a7-c02b-4b0f-92ac-e66acf2c061c,1640x1360,1047208,http://localhost:19400/api/videos/3dafb8a7-c02b-4b0f-92ac-e66acf2c061c/stream,video-1-1
+e930defb-5e6a-4589-9dff-75b95ca738e1,640x360,1047208,http://localhost:19400/api/videos/e930defb-5e6a-4589-9dff-75b95ca738e1/stream,video-1-2

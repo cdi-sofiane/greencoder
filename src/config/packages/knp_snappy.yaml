@@ -1,0 +1,18 @@
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     '/usr/bin/wkhtmltopdf'
+        options:    
+            - { name: 'encoding', value: 'UTF-8'}
+            - { name: 'enable-javascript', value: true}
+            - { name: 'images', value: true}
+            - { name: 'default-header', value: null}
+            - { name: 'debug-javascript' , value: true}
+            - { name: 'no-stop-slow-scripts' , value: true}
+            - { name: 'javascript-delay' , value: '1000'}
+            
+    image:
+        enabled:    true
+        binary:     '/usr/bin/wkhtmltoimage%'
+        options:    []
+    temporary_folder: "%kernel.project_dir%/public/uploads/"

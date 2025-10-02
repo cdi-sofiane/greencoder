@@ -1,0 +1,77 @@
+{% block body %}
+	{% block page1 %}
+
+		<style>
+			#intro {
+				position: relative;
+				isolation: isolate;
+			}
+
+			#intro::before {
+				content: '';
+				position: absolute;
+				width: 2048px;
+				top: 70%;
+				left: 10%;
+				height: 2048px;
+				transform: translate(-50%, -50%) rotate(45deg);
+				border-radius: 25%;
+				background: radial-gradient(rgb(9, 87, 230), rgb(9, 84, 222));
+				z-index: -1;
+			}
+
+			#big-title {
+				align-self: stretch;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+			}
+			#big-title #headings::before {
+				content: "2023";
+				position: absolute;
+				left: -50px;
+				top: 50%;
+				transform: translate(-50%, -50%) rotate(-90deg);
+				color: white;
+				font-weight: bold;
+				font-size: 60px;
+				letter-spacing: 6px;
+			}
+			#big-title #logos {
+				align-self: flex-start;
+				height: 15%;
+			}
+			#big-title #logos img {
+				margin-left: 50px;
+			}
+
+			#big-title #headings {
+				margin-left: 50px;
+				height: 60%;
+				max-width: 900px;
+				position: relative;
+			}
+		</style>
+
+		<section id="intro" class="slide row align-center space-between spaced-xxl">
+			<section id="big-title" role="contentinfo">
+				<div id="logos" class="row space-between align-center">
+					<img src="{{report_storage}}assets/logo_vidmizer_blanc.png" style="width: 200px" alt="Vidmizer-logo"/>
+					<img src="{{report_storage}}assets/logo_greenencoder_seul_blanc.png" style="width: 400px" alt="GreenEncoder-logo"/>
+				</div>
+				<div id="headings">
+					<h1 class='is-bold is-white'>Rapport d'encodage
+						<br/>
+						<em class="is-green">Éco-responsable</em>
+					</h1>
+					<h2 class="is-white">L'encodeur vidéo simple,<br>
+						performant qui préserve l'environnement</h2>
+					<h3 class="is-white">{{"now"|date("d/m/Y")}}</small>
+				</div>
+			</section>
+			{% if data.logo != '' %}
+				<img src="{{data.logo}}" alt="customer-logo" style="width: 400px; height: auto;"/>
+			{% endif %}
+		</section>
+	{% endblock page1 %}
+{% endblock %}

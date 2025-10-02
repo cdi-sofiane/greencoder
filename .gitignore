@@ -1,0 +1,38 @@
+
+###> symfony/framework-bundle ###
+.env
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+.front
+###< symfony/framework-bundle ###
+###> docker volume cache and log ###
+/volume/*
+.env
+/.env
+###> docker volume cache and log ###
+
+###> ide phpstorme files ###
+../.idea/*
+/.idea/*
+.idea/*
+###> ide phpstorme files ###
+###> ide vscode files ###
+.vscode
+.vscode/*
+###> ide phpstorme files ###
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+/src/tests/Assets/video.mp4
+docker-compose-local.yml

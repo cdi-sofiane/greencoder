@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Activate Mail!
+			{% endblock %}
+		</title>
+		{# Run `composer require symfony/webpack-encore-bundle`
+																								    and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			<style>
+				type="text/css" .ExternalClass,
+				.ExternalClass div,
+				.ExternalClass font,
+				.ExternalClass p,
+				.ExternalClass span,
+				.ExternalClass td,
+				img {
+					line-height: 100%;
+				}
+
+				#outlook a {
+					padding: 0;
+				}
+
+				.ExternalClass,
+				.ReadMsgBody {
+					width: 100%;
+				}
+
+				a,
+				blockquote,
+				body,
+				li,
+				p,
+				table,
+				td {
+					-webkit-text-size-adjust: 100%;
+					-ms-text-size-adjust: 100%;
+				}
+
+				table,
+				td {
+					mso-table-lspace: 0;
+					mso-table-rspace: 0;
+				}
+
+				img {
+					-ms-interpolation-mode: bicubic;
+					border: 0;
+					height: auto;
+					outline: 0;
+					text-decoration: none;
+				}
+
+				table {
+					border-collapse: collapse !important;
+				}
+
+				#bodyCell,
+				#bodyTable,
+				body {
+					height: 100% !important;
+					margin: 0;
+					padding: 0;
+					font-family: ProximaNova, sans-serif;
+				}
+
+				#bodyCell {
+					padding: 20px;
+				}
+
+				#bodyTable {
+					width: 600px;
+				}
+
+				@font-face {
+					font-family: ProximaNova;
+					src: url('https://cdn.auth0.com/fonts/proxima-nova/proximanova-regular-webfont-webfont.eot');
+					src: url('https://cdn.auth0.com/fonts/proxima-nova/proximanova-regular-webfont-webfont.eot?#iefix') format("embedded-opentype"), url('https://cdn.auth0.com/fonts/proxima-nova/proximanova-regular-webfont-webfont.woff') format("woff");
+					font-weight: 400;
+					font-style: normal;
+				}
+
+				@font-face {
+					font-family: ProximaNova;
+					src: url('https://cdn.auth0.com/fonts/proxima-nova/proximanova-semibold-webfont-webfont.eot');
+					src: url('https://cdn.auth0.com/fonts/proxima-nova/proximanova-semibold-webfont-webfont.eot?#iefix') format("embedded-opentype"), url('https://cdn.auth0.com/fonts/proxima-nova/proximanova-semibold-webfont-webfont.woff') format("woff");
+					font-weight: 600;
+					font-style: normal;
+				}
+
+				@media only screen and(max-width: 480px) {
+
+					#bodyTable,
+					body {
+						width: 100% !important;
+					}
+
+					a,
+					blockquote,
+					body,
+					li,
+					p,
+					table,
+					td {
+						-webkit-text-size-adjust: none !important;
+					}
+
+					body {
+						min-width: 100% !important;
+					}
+
+					#bodyTable {
+						max-width: 600px !important;
+					}
+
+					#signIn {
+						max-width: 280px !important;
+					}
+				}
+			</style>
+		{% endblock %}
+
+		{% block javascripts %}
+			{# {{ encore_entry_script_tags('app') }} #}
+
+		{% endblock %}
+	</head>
+
+	<body>
+		{% block body %}
+			<center>
+				<table style='width: 600px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 0;font-family: "ProximaNova", sans-serif;border-collapse: collapse !important;height: 100% !important;' align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+					<tr>
+						<td align="center" valign="top" id="bodyCell" style='-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 20px;font-family: "ProximaNova", sans-serif;height: 100% !important;'>
+							<div class="main">
+								<div style="text-align: left">
+									Bonjour et bienvenue sur le GreenEncoder !
+
+									<p>
+
+
+										Vous avez été invité par
+										{{data.sendBy.getFirstname ?? data.sendBy.getEmail }}
+										à rejoindre le compte
+										{{ data.toAccount.getName }}.
+										
+																				                    Pour y accéder veuillez cliquer sur le lien de redirection ci-dessous :
+
+
+									</p>
+									<div style="text-align: center;">
+										<a href=" {{ app.request.server.get('FRONT_BASE_URL')}}">Rejoindre le compte</a>
+									</div>
+									<p>
+										Une fois redirigé via le lien
+									</p>
+									<p>
+										Pour toutes questions, n’hésitez pas à nous contacter par mail à
+										<a href="mailto: support@vidmizer.com">support@vidmizer.com</a>
+									</p>
+
+
+									<p>
+										Cordialement,
+									</p>
+									<p>
+										L’équipe Vidmizer
+									</p>
+								</div>
+							</div>
+							<div class="logo-link" style="display: flex;justify-content: center">
+								<img src="{{ email.image('@img/logo_greenencoder_couleur_vdef.png') }}" width="40%" height="40%" alt="Your logo goes here" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"/>
+							</p>
+						</td>
+					</tr>
+				</div>
+			</td>
+		</body>
+	</html>
+</tr></table></center>{% endblock %}</body></html>
